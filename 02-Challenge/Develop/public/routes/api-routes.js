@@ -20,3 +20,17 @@ router.post('/api/notes', (req,res) => {
     fs.writeFileSync("db/db.json",JSON.stringify(dbJson));
     res.json(dbJson)
 });
+
+// the DELETE request for api routes
+
+router.delete('/api/notes/:id', (req,res) =>{
+    let data= fs.readFileSync("db/db.json", "utf8");
+    const dataJSON= JSON.parse(data);
+    const newNotes = dataJSON.filler((note)=>{
+        return note.id !== req.params.id;
+    });
+    fs.writeFileSync("db/db.json",JSON.stringify(newNotes));
+    res.json("Deleted");
+});
+
+module.exports= router;
